@@ -1,0 +1,21 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Registration - My Site</title>
+    {% load static %}
+</head>
+<body class="change-list">
+    <div id="content" class="colMS">
+        <h1>User Registration</h1>
+        <div id="container">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Register</button>
+            </form>
+            <p>Already have an account? <a href="{% url 'polls:login' %}">Login</a></p>
+        </div>
+    </div>
+</body>
+</html>
