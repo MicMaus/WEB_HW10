@@ -20,7 +20,6 @@ db_name = "hw8"
 
 try:
     connect(db=db_name, host=url)
-    print("successfully connected to MongoDB")
 except Exception as e:
     print(f"the error {e} occured with MongoDB connection")
 
@@ -36,7 +35,7 @@ Base = declarative_base()
 
 # Define the PostgreSQL models
 class Author(Base):
-    __tablename__ = "author"
+    __tablename__ = "polls_author"
     id = Column(Integer, primary_key=True, autoincrement=True)
     fullname = Column(String(100), nullable=False)
     born_date = Column(String(255), nullable=True)
@@ -45,9 +44,9 @@ class Author(Base):
 
 
 class Quote(Base):
-    __tablename__ = "quote"
+    __tablename__ = "polls_quote"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    author_id = Column(Integer, ForeignKey("author.id"), nullable=False)
+    author_id = Column(Integer, ForeignKey("polls_author.id"), nullable=False)
     tags = Column(Text)
     quote = Column(Text, nullable=False)
 
@@ -103,3 +102,5 @@ for mongo_quote in quotes:
 # Save the PostgreSQL quotes to the database
 session.add_all(postgresql_quotes)
 session.commit()
+
+print("data successfully transfered from MongoDB to PostgreSQL")
