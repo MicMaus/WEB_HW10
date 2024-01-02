@@ -7,6 +7,7 @@ app_name = "polls"
 urlpatterns = [
     path("", views.quotes, name="quotes"),
     path("author/<int:author_id>/", views.author_detail, name="author_detail"),
+    path("filtered_quotes/<str:tag>/", views.quotes_by_tag, name="filtered_quotes"),
     path("register/", views.register, name="register"),
     path(
         "login/",

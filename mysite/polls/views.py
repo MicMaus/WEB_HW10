@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login
+from collections import Counter
 
 from .models import Quote, Author
 from .forms import SignUpForm
@@ -7,7 +8,19 @@ from .forms import SignUpForm
 
 def quotes(request):
     quotes_list = Quote.objects.all()
-    return render(request, "polls/quotes.html", {"quotes_list": quotes_list})
+    tag_counts = Counter()
+
+    for quote in quotes_list:
+        extracted_tags = [tag.strip("{}") for tag in quote.tags.split(",")]
+        tag_counts.update(extracted_tags)
+
+    top_tags = [tag for tag, _ in tag_counts.most_common(10)]
+
+    return render(
+        request,
+        "polls/quotes.html",
+        {"quotes_list": quotes_list, "top_tags": top_tags},
+    )
 
 
 def author_detail(request, author_id):
@@ -26,3 +39,12 @@ def register(request):
         form = SignUpForm()
 
     return render(request, "polls/register.html", {"form": form})
+
+
+def quotes_by_tag(request, tag):
+    quotes_by_tag_list = Quote.objects.filter(tags__icontains=tag)
+    return render(
+        request,
+        "polls/quotes_by_tag.html",
+        {"quotes_by_tag_list": quotes_by_tag_list, "clicked_tag": tag},
+    )

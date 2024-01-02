@@ -13,7 +13,7 @@
     <ul>
       {% for quote in quotes_list %}
         <li>
-          "{{ quote.quote }}" by
+          {{ quote.quote }} by
           <a href="{% url 'polls:author_detail' author_id=quote.author.id %}">{{ quote.author.fullname }}</a>
         </li>
       {% endfor %}
@@ -21,6 +21,19 @@
   {% else %}
     <p>No quotes are available.</p>
   {% endif %}
+
+  <h2>Top 10 tags</h2>
+  {% if top_tags %}
+    <ul>
+      {% for tag in top_tags %}
+        <li><a href="{% url 'polls:filtered_quotes' tag %}">{{ tag }}</a></li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No tags are available.</p>
+  {% endif %}
+
+
   {% if user.is_authenticated %}
     <!-- Display the buttons only for authenticated users -->
     <a href="{% url 'admin:polls_author_add' %}">Add Author</a>
@@ -29,19 +42,18 @@
         {% csrf_token %}
         <button type="submit">Logout</button>
     </form>
+    
   {% endif %}
 
-  {% block content %}
-  <form action="{% url 'polls:login' %}" method="get" style="display:box;">
-        {% csrf_token %}
-        <button type="submit">Login</button>
-    </form>
-  {% endblock %}
-    {% if not user.is_authenticated %}
+  {% if not user.is_authenticated %}
     <!-- Display the register button only for non authenticated users -->
     <form action="{% url 'polls:register' %}" method="get" style="display: box;">
         {% csrf_token %}
         <button type="submit">Register</button>
+    </form>
+    <form action="{% url 'polls:login' %}" method="get" style="display:box;">
+        {% csrf_token %}
+        <button type="submit">Login</button>
     </form>
   {% endif %}
 </body>
