@@ -136,3 +136,19 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, "static")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_REDIRECT_URL = "http://localhost:8000/"
+
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+DEFAULT_FROM_EMAIL = "mic.maus@azet.sk"
+EMAIL_HOST = "smtp.azet.sk"
+EMAIL_PORT = 465
+EMAIL_STARTTLS = False
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
+EMAIL_HOST_USER = "mic.maus@azet.sk"
+EMAIL_HOST_PASSWORD = "!hAKHjS65AZv5w3"
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+]

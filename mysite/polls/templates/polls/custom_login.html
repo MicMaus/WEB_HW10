@@ -1,0 +1,10 @@
+{% block content %}
+  <h2>Login</h2>
+  <form method="post" action="{% url 'polls:login' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Login</button>
+  </form>
+  <p>Don't have an account? <a href="{% url 'polls:register' %}">Register</a></p>
+  <p>Forgot your password? <a href="{% url 'polls:password_reset' %}">Reset Password</a></p>
+{% endblock %}
